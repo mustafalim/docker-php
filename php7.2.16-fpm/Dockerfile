@@ -4,34 +4,45 @@ LABEL maintainer="Mustafa Salim <mustafalim225@gmail.com>"
 
 # install dependencies
 RUN apt-get update \
-    && apt-get install -y \
-    git \
-    vim \
-    g++ \
-    libpq-dev \
-    zlib1g-dev \
-    libicu-dev  \
-    libbz2-dev \
-    libfreetype6-dev \
-    libjpeg62-turbo-dev \
-    libpng-dev
+    && apt-get install -y --no-install-recommends \
+        apt-utils \
+        apt-transport-https \
+        gnupg \
+        libpq-dev \
+        zlib1g-dev \
+        libicu-dev  \
+        libbz2-dev \
+        libfreetype6-dev \
+        libjpeg62-turbo-dev \
+        libpng-dev \
+        libmemcached-dev \
+        zlib1g-dev\
+        git \
+        vim
 
 # core extension
 RUN docker-php-ext-install -j$(nproc) bcmath bz2 intl pdo_mysql pdo_pgsql opcache zip
 
-# gd
+# gd extension
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd
 
-# redis
-RUN pecl install redis-4.3.0 \
-    && pecl install xdebug-2.7.0 \
-    && docker-php-ext-enable redis xdebug
+# redis, memcached & xdebug extension
+RUN pecl install redis-4.3.0 memcached-3.1.3 xdebug-2.7.0 \
+    && docker-php-ext-enable redis memcached xdebug
 
-# memcached
-RUN apt-get update && apt-get install -y libmemcached-dev zlib1g-dev \
-    && pecl install memcached-3.1.3 \
-    && docker-php-ext-enable memcached
+# sqlsrv dependencies
+RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+    && curl https://packages.microsoft.com/config/debian/9/prod.list \
+        > /etc/apt/sources.list.d/mssql-release.list \
+    && apt-get update \
+    && ACCEPT_EULA=Y apt-get install -y --no-install-recommends \
+        unixodbc-dev \
+        msodbcsql17
+
+# sqlsrv extension
+RUN pecl install sqlsrv pdo_sqlsrv \
+    && docker-php-ext-enable sqlsrv pdo_sqlsrv
 
 # composer
 RUN curl --silent --fail --location --retry 3 --output /tmp/installer.php \
