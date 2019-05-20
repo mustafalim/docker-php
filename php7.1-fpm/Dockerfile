@@ -32,7 +32,7 @@ RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-di
     && docker-php-ext-install -j$(nproc) gd
 
 # redis, memcached & xdebug extension
-RUN pecl install redis-4.3.0 memcached-3.1.3 xdebug-2.7.0 \
+RUN pecl install redis-4.3.0 memcached-3.1.3 xdebug-2.7.2 \
     && docker-php-ext-enable redis memcached xdebug
 
 # sqlsrv dependencies
