@@ -46,7 +46,7 @@ RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
         msodbcsql17
 
 # sqlsrv extension
-RUN pecl install sqlsrv-5.6.1 pdo_sqlsrv-5.6.1 \
+RUN pecl install sqlsrv-5.3.0 pdo_sqlsrv-5.3.0 \
     && docker-php-ext-enable sqlsrv pdo_sqlsrv
 
 # composer
