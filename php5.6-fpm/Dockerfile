@@ -20,6 +20,7 @@ RUN apt-get update \
         libxrender1 \
         libfontconfig1 \
         libxext6 \
+        libzip-dev \
         git \
         vim
 
