@@ -1,4 +1,4 @@
-FROM php:7.2.16-fpm
+FROM php:7.3.5-fpm
 
 LABEL maintainer="Mustafa Salim <mustafalim225@gmail.com>"
 
@@ -17,6 +17,9 @@ RUN apt-get update \
         libpng-dev \
         libmemcached-dev \
         zlib1g-dev\
+        libxrender1 \
+        libfontconfig1 \
+        libxext6 \
         git \
         vim
 

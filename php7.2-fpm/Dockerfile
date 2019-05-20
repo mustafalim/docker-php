@@ -17,6 +17,9 @@ RUN apt-get update \
         libpng-dev \
         libmemcached-dev \
         zlib1g-dev\
+        libxrender1 \
+        libfontconfig1 \
+        libxext6 \
         git \
         vim
 
