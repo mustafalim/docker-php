@@ -16,6 +16,7 @@ RUN apt-get update \
         libjpeg62-turbo-dev \
         libpng-dev \
         libmemcached-dev \
+        libmcrypt-dev \
         zlib1g-dev\
         libxrender1 \
         libfontconfig1 \
@@ -26,7 +27,7 @@ RUN apt-get update \
         vim
 
 # core extension
-RUN docker-php-ext-install -j$(nproc) bcmath bz2 exif intl mysqli pdo_mysql pdo_pgsql opcache zip
+RUN docker-php-ext-install -j$(nproc) bcmath bz2 exif intl mcrypt mysql mysqli pdo_mysql pdo_pgsql opcache zip
 
 # gd extension
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
