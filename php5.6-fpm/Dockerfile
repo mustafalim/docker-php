@@ -37,6 +37,13 @@ RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-di
 RUN pecl install redis-4.3.0 memcached-2.2.0 xdebug-2.5.5 imagick-3.4.4 \
     && docker-php-ext-enable redis memcached xdebug imagick
 
+# ioncube
+RUN curl -o ioncube.tar.gz http://downloads3.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz \
+    && tar -xvvzf ioncube.tar.gz \
+    && mv ioncube/ioncube_loader_lin_5.6.so `php-config --extension-dir` \
+    && rm -Rf ioncube.tar.gz ioncube \
+    && docker-php-ext-enable ioncube_loader_lin_5.6
+
 # composer
 RUN curl --silent --fail --location --retry 3 --output /tmp/installer.php \
     --url https://raw.githubusercontent.com/composer/getcomposer.org/cb19f2aa3aeaa2006c0cd69a7ef011eb31463067/web/installer \
