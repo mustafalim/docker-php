@@ -16,12 +16,14 @@ RUN apt-get update \
         libjpeg62-turbo-dev \
         libpng-dev \
         libmemcached-dev \
-        zlib1g-dev\
+        zlib1g-dev \
         libxrender1 \
         libfontconfig1 \
         libxext6 \
         libzip-dev \
-        git \
+        libcurl4-openssl-dev \
+        pkg-config \
+        libssl-dev \
         vim
 
 # core extension
