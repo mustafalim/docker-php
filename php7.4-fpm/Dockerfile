@@ -4,34 +4,26 @@ LABEL maintainer="Mustafa Salim <mustafalim225@gmail.com>"
 
 # install dependencies
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-        apt-utils \
+    && ACCEPT_EULA=Y apt-get install -y --no-install-recommends \
         apt-transport-https \
+        apt-utils \
         gnupg \
-        libpq-dev \
-        zlib1g-dev \
-        libicu-dev  \
         libbz2-dev \
-        libfreetype6-dev \
-        libjpeg62-turbo-dev \
-        libpng-dev \
-        libmemcached-dev \
-        zlib1g-dev \
-        libxrender1 \
-        libfontconfig1 \
-        libxext6 \
-        libzip-dev \
         libcurl4-openssl-dev \
-        pkg-config \
+        libfontconfig1 \
+        libfreetype6-dev \
+        libicu-dev  \
+        libjpeg62-turbo-dev \
+        libmemcached-dev \
+        libpng-dev \
+        libpq-dev \
         libssl-dev \
-        vim
-
-# core extension
-RUN docker-php-ext-install -j$(nproc) bcmath bz2 exif gd intl mysqli opcache pdo_mysql pdo_pgsql sockets zip
-
-# mongodb, redis, memcached, xdebug extension
-RUN pecl install mongodb-1.9.1 redis-5.3.4 memcached-3.1.5 xdebug-3.0.4 \
-    && docker-php-ext-enable mongodb redis memcached xdebug
+        libxext6 \
+        libxrender1 \
+        libzip-dev \
+        pkg-config \
+        vim \
+        zlib1g-dev
 
 # sqlsrv dependencies
 RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
@@ -42,9 +34,12 @@ RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
         unixodbc-dev \
         msodbcsql17
 
-# sqlsrv extension
-RUN pecl install sqlsrv-5.9.0 pdo_sqlsrv-5.9.0 \
-    && docker-php-ext-enable sqlsrv pdo_sqlsrv
+# core extension
+RUN docker-php-ext-install -j$(nproc) bcmath bz2 exif gd intl mysqli opcache pdo_mysql pdo_pgsql sockets zip
+
+# pecl extension
+RUN pecl install memcached-3.1.5 mongodb-1.9.1 pdo_sqlsrv-5.9.0 redis-5.3.4 sqlsrv-5.9.0 \
+    && docker-php-ext-enable memcached mongodb pdo_sqlsrv redis sqlsrv
 
 # clear cache
 RUN apt-get clean \
